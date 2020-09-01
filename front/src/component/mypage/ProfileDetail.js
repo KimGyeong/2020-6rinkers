@@ -1,7 +1,15 @@
 import React from "react";
 import ProfileDetailInput from "./ProfileDetailInput";
+import { withdraw } from "../../api";
+import { ACCESS_TOKEN } from "../../constants";
 
-export default ({ user }) => {
+export default ({ user, setCurrentUser }) => {
+  const userWithdraw = async (e) => {
+    e.preventDefault();
+    await withdraw();
+    setCurrentUser({ currentUser: null, authenticated: false });
+    localStorage.setItem(ACCESS_TOKEN, null);
+  };
   return (
     <div className="profile-detail-container">
       <div className="profile-edit-container">
@@ -24,11 +32,11 @@ export default ({ user }) => {
         {/*    </button>*/}
         {/*  </div>*/}
         {/*</div>*/}
-        {/*<div className="withdrawal">*/}
-        {/*  <a href="#" onClick={() => alert("hi")} className="withdrawal-submit">*/}
-        {/*    회원 탈퇴*/}
-        {/*  </a>*/}
-        {/*</div>*/}
+        <div className="withdrawal">
+          <a href="/" onClick={userWithdraw} className="withdrawal-submit">
+            회원 탈퇴
+          </a>
+        </div>
       </div>
     </div>
   );

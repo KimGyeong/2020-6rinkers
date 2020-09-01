@@ -36,6 +36,14 @@ public class UserController {
 		return ResponseEntity.ok(UserResponse.of(user));
 	}
 
+	@DeleteMapping("/me")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<Void> deleteCurrentUser(@CurrentUser User user) {
+		userService.deleteCurrentUser(user);
+
+		return ResponseEntity.noContent().build();
+	}
+
 	@GetMapping("/me/favorites")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<List<CocktailResponse>> findFavorites(@CurrentUser User user) {
